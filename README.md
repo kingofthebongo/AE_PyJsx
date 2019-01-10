@@ -11,6 +11,7 @@ aeApp = AE_JSInterface()
 Or, use specific parameters.
 ```
 aeApp = AE_JSInterface(aeVersion, returnFolder)
+# read https://en.wikipedia.org/wiki/Adobe_After_Effects to get correct version number
 ```
 
 Next use existing functions
