@@ -20,6 +20,14 @@ print aeApp.jsGetActiveDocument()
 ```
 Or add yours based on existings
 
+### Prerequisites
+After Effects needs to be launched before you can use the functions.
+You can run AE from your script thanks to
+```
+aeApp.openAE()
+```
+But you have to wait that After Effects is fully loaded before use the other functions.
+
 ## Go Further
 This script is attempting to compensate the unfilled blank about the After Effects COM & DOM.
 Please share your researches if you find the way to handle After Effects with Python like Photoshop.
