@@ -1,10 +1,32 @@
+# -*- coding: utf-8 -*-
+
 """
 Script which builds a .jsx file, sends it to After Effects and then waits for data to be returned. 
 """
-import os, sys
-import subprocess
-import time
-import _winreg
+import os, sys, subprocess, time, _winreg, ctypes
+
+# Tool to get existing windows, usefull here to check if AE is loaded
+class CurrentWindows():
+    def __init__(self):
+        self.EnumWindows = ctypes.windll.user32.EnumWindows
+        self.EnumWindowsProc = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int))
+        self.GetWindowText = ctypes.windll.user32.GetWindowTextW
+        self.GetWindowTextLength = ctypes.windll.user32.GetWindowTextLengthW
+        self.IsWindowVisible = ctypes.windll.user32.IsWindowVisible
+
+        self.titles = []
+        self.EnumWindows(self.EnumWindowsProc(self.foreach_window), 0)
+
+    def foreach_window(self, hwnd, lParam):
+        if self.IsWindowVisible(hwnd):
+            length = self.GetWindowTextLength(hwnd)
+            buff = ctypes.create_unicode_buffer(length + 1)
+            self.GetWindowText(hwnd, buff, length + 1)
+            self.titles.append(buff.value)
+        return True
+
+    def getTitles(self):
+        return self.titles
 
 # A Mini Python wrapper for the JS commands...
 class AE_JSWrapper(object):
@@ -57,7 +79,7 @@ class AE_JSWrapper(object):
     def jsExecuteCommand(self):
         """Pass the commands to the subprocess module."""
         self.compileCommands()        
-        target = [self.aeApp, "-r", self.tempJsxFile]
+        target = [self.aeApp, "-ro", self.tempJsxFile]
         ret = subprocess.Popen(target)
     
     def addCommand(self, command):
@@ -115,10 +137,34 @@ class AE_JSWrapper(object):
 class AE_JSInterface(object):
     
     def __init__(self, aeVersion = "", returnFolder = ""):
+        self.aeWindowName = "Adobe After Effects"
         self.aeCom = AE_JSWrapper(aeVersion, returnFolder) # Create wrapper to handle JSX
 
     def openAE(self):
         self.aeCom.openAE()
+
+    def waitingAELoading(self):
+        loading = True
+        attempts = 0
+        while loading and attempts < 60:
+            for t in CurrentWindows().getTitles():
+                if self.aeWindowName.lower() in t.lower():
+                    loading = False
+                    break
+
+            attempts += 1
+            time.sleep(0.5)
+
+        return not loading
+
+    def jsAlert(self, msg):
+        self.aeCom.jsNewCommandGroup() # Clean JSX command list
+
+        # Write new JSX commands
+        jsxTodo =  "alert(\"" + msg + "\");"
+        self.aeCom.addCommand(jsxTodo)
+
+        self.aeCom.jsExecuteCommand() # Execute command list
 
     def jsOpenScene(self, path):
         self.aeCom.jsNewCommandGroup() # Clean JSX command list
@@ -144,7 +190,11 @@ class AE_JSInterface(object):
         return self.aeCom.readReturn()[0] # Read the temp file to get the JSX returned value
 
 if __name__ == '__main__':
-    # Usage example
-    aeApp = AE_JSInterface(aeVersion = "16.0")
-    # aeApp.jsOpenScene("PATH/TO/AEPROJECT.aep")
-    # aeApp.jsGetActiveDocument()
+    # Create the wrapper
+    aeApp = AE_JSInterface(aeVersion = "16.0", returnFolder = os.path.join(os.path.expanduser('~'), "Documents", "temp"))
+
+    # Open AE if needed
+    aeApp.openAE()
+    if aeApp.waitingAELoading():
+        # Launch function if AE is ready
+        aeApp.jsOpenScene("‪C:/Users/winuser8/Desktop/test.aep")
