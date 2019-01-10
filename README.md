@@ -24,10 +24,10 @@ Or add yours based on existings
 This script is attempting to compensate the unfilled blank about the After Effects COM & DOM.
 Please share your researches if you find the way to handle After Effects with Python like Photoshop.
 ### Fiew links about After Effects COM & DOM
-* **Stackoverflow [Adobe After Effects COM Object Model ID?](https://stackoverflow.com/questions/50848219/adobe-after-effects-com-object-model-id)
-* **Adobe Forum [Python and After Effects Scripting on Windows](https://forums.adobe.com/thread/2538657)
-* **GitHub [samholt/after-effects-scripting-python](https://github.com/samholt/after-effects-scripting-python)
-* **GitHub [lohriialo/photoshop-scripting-python](https://github.com/lohriialo/photoshop-scripting-python)
+* **Stackoverflow** [Adobe After Effects COM Object Model ID?](https://stackoverflow.com/questions/50848219/adobe-after-effects-com-object-model-id)
+* **Adobe Forum** [Python and After Effects Scripting on Windows](https://forums.adobe.com/thread/2538657)
+* **GitHub** [samholt/after-effects-scripting-python](https://github.com/samholt/after-effects-scripting-python)
+* **GitHub** [lohriialo/photoshop-scripting-python](https://github.com/lohriialo/photoshop-scripting-python)
 
 
 ## Authors
