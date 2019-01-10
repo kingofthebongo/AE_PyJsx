@@ -1,5 +1,5 @@
 """
-Example which builds a .jsx file, sends it to photoshop and then waits for data to be returned. 
+Script which builds a .jsx file, sends it to After Effects and then waits for data to be returned. 
 """
 import os, sys
 import subprocess
