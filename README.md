@@ -43,4 +43,4 @@ Please share your researches if you find the way to handle After Effects with Py
 * **Thibaud CARPENTIER** - *AE Adaptation* - [kingofthebongo](https://github.com/kingofthebongo)
 
 ## Reference
-Based on Peter Hanshaw work for Photoshop: [Use Python to use JavaScript to get Photoshop to do stuff](http://peterhanshawart.blogspot.com/2014/01/use-python-to-use-javascript-to-get.html).
+Based on **Peter Hanshaw** work for Photoshop: [Use Python to use JavaScript to get Photoshop to do stuff](http://peterhanshawart.blogspot.com/2014/01/use-python-to-use-javascript-to-get.html).
